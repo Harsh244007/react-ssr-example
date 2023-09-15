@@ -1,13 +1,40 @@
-
-
-const App=()=> {
-  
+import { Suspense } from "react";
+import { About, Error, Home, Navigation } from "./components/index.tsx";
+import { generateRandomString } from "./components/Common/commonFn.tsx";
+import { Routes, Route } from "react-router-dom";
+const App = () => {
+  const randomString = generateRandomString(5);
   return (
     <>
-  <p className="text-blue text-center text-2xl">Hello There</p>
-  <p className="text-blue text-center text-2xl">This is an template please add or remove files here.</p>
+      <Navigation RandomString={randomString} />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Suspense fallback={<p>Loading...</p>}>
+              <Home />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/about"
+          element={
+            <Suspense fallback={<p>Loading...</p>}>
+              <About />
+            </Suspense>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <Suspense fallback={<p>Loading...</p>}>
+              <Error />
+            </Suspense>
+          }
+        />
+      </Routes>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
